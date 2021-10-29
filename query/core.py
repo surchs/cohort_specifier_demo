@@ -85,7 +85,7 @@ def create_query(age: tuple = (None, None),
     # select_str = ''
     q_body = ''
     filter_body = ''
-    if age is not None or not age == (None, None):
+    if age is not None and not age == (None, None):
         # select_str += f' ?{AGE_VAR}'
         filter_body += '\n' + f'FILTER (?{AGE_VAR} > {age[0]} && ?{AGE_VAR} < {age[1]}).'
     q_body += '\n' + f'OPTIONAL {{?siri {AGE_REL} ?{AGE_VAR} }}'
