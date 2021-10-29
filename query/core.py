@@ -85,22 +85,22 @@ def create_query(age: tuple = (None, None),
     # select_str = ''
     q_body = ''
     filter_body = ''
-    if age is not None and not age == (None, None):
+    if age is not None and not age == (None, None) and not age == ('', ''):
         # select_str += f' ?{AGE_VAR}'
         filter_body += '\n' + f'FILTER (?{AGE_VAR} > {age[0]} && ?{AGE_VAR} < {age[1]}).'
     q_body += '\n' + f'OPTIONAL {{?siri {AGE_REL} ?{AGE_VAR} }}'
 
-    if gender is not None:
+    if gender is not None and not gender == '':
         # select_str += f' ?{GENDER_VAR}'
         filter_body += '\n' + f'FILTER (?{GENDER_VAR} = "{gender}").'
     q_body += '\n' + f'OPTIONAL {{?siri {GENDER_REL} ?{GENDER_VAR} }}'
 
-    if image is not None:
+    if image is not None and not image == '':
         # select_str += f' ?{IMAGE_VAR}'
         filter_body += '\n' + f'FILTER (?{IMAGE_VAR} = {image}).'
     q_body += '\n' + f'OPTIONAL {{?siri {IMAGE_REL} ?{IMAGE_VAR} }}'
 
-    if diagnosis is not None:
+    if diagnosis is not None and not diagnosis == '':
 
         # select_str += ' ?diagnosis'
         filter_body += '\n' + f'FILTER (?{DIAGNOSIS_VAR} = <{diagnosis}>).'
