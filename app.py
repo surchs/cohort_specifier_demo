@@ -1,10 +1,8 @@
-import json
-
 import dash
+import dash_bootstrap_components as dbc
 import pandas as pd
 from dash import dash_table, html, dcc
 from dash.dependencies import Input, Output, State
-import dash_bootstrap_components as dbc
 
 from query import process_query, create_query
 
@@ -18,7 +16,6 @@ categories = [
     'Dataset', 'Subject', 'Age', 'Gender', 'Modality', 'Diagnosis'
 ]
 columns = [{'id': c, 'name': c} for c in categories]
-
 
 # Define Header Layout
 header = dbc.Navbar(
@@ -85,10 +82,10 @@ gender_drop = dcc.Dropdown(
 
 # Modality
 modalities = [{'label': label, 'value': key}
-           for label, key in [('Flow weighted MRI', 'nidm:FlowWeighted'),
-                              ('T1 weighted MRI', 'nidm:T1Weighted'),
-                              ('Diffusion weighted MRI', 'nidm:DiffusionWeighted'),
-                              ('T2 weighted MRI', 'nidm:T2Weighted')]]
+              for label, key in [('Flow weighted MRI', 'nidm:FlowWeighted'),
+                                 ('T1 weighted MRI', 'nidm:T1Weighted'),
+                                 ('Diffusion weighted MRI', 'nidm:DiffusionWeighted'),
+                                 ('T2 weighted MRI', 'nidm:T2Weighted')]]
 modality_drop = dcc.Dropdown(
     id="modality_drop",
     options=modalities,
@@ -157,9 +154,9 @@ query_card = dbc.Card(
 # Result Card
 results_card = dbc.Card(
     [
-    dbc.Row([html.P('Results Markdown dump:'), html.Pre(id='results_space')]),
-    dbc.Row([html.P('Sparql Query'), html.Pre(id='query_space')])
-]
+        dbc.Row([html.P('Results Markdown dump:'), html.Pre(id='results_space')]),
+        dbc.Row([html.P('Sparql Query'), html.Pre(id='query_space')])
+    ]
 )
 
 # DataTable for results
@@ -220,7 +217,7 @@ app.layout = html.Div(
         State("diag_drop", "value"),
         State("gender_drop", "value"),
         State("modality_drop", "value"),
-     ],
+    ],
 )
 def parse_query(query_btn, min_age, max_age, diag, gender, modality):
     if query_btn:
@@ -240,7 +237,7 @@ def run_query(query_str):
              'open_neuro_id': 'Dataset',
              'age': 'Age',
              'diagnosis': 'Diagnosis'
-    }
+             }
     df = pd.DataFrame(process_query(query_str)).rename(columns=remap)
     return (df.head().to_markdown(), df.to_dict("records"))
 
